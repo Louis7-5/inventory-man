@@ -16,9 +16,9 @@ $inventory = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>Statistics - Inventory-man</title>
+  <title>Add Inventory</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-  <link rel="stylesheet" href="css/style-new.css">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/table.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
@@ -62,6 +62,12 @@ $inventory = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <span>Notifications</span>
         </a>
       </li>
+      <li class="sidebar-list-item">
+        <a href="php/logout.php">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-power"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+        <span>Logout</span>
+        </a>
+      </li>
     </ul>
     <!-- User logged in -->
     <div class="account-info">
@@ -84,7 +90,7 @@ $inventory = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
         </svg>
       </button>
-      <button class="app-content-headerButton">Add Product</button>
+      <a href="add_inventory.php"><button class="app-content-headerButton">Add Product</button></a>
     </div>
     <div class="app-content-actions">
       <input class="search-bar" placeholder="Search..." type="text">
@@ -125,6 +131,24 @@ $inventory = $stmt->fetchAll(PDO::FETCH_ASSOC);
       </div>
     </div>
     <div class="product-area-wrapper">
+        <form action="php/add_inventory.php" method="POST" class="inventory-form">
+            <div class="">
+                <input type="text" class="inventory-form-input" name="item_name" id="item_name" placeholder="Item Name">
+                <input type="number" class="inventory-form-input" name="quantity" id="quantity" placeholder="Quantity">
+                <input type="number" class="inventory-form-input" name="price" id="price" placeholder="Price">
+                <select class="inventory-form-input" name="category" id="category">
+                    <option value="select_category">Select Item Category</option>
+                    <option value="consumable">Consumable</option>
+                    <option value="administrative">Administrative</option>
+                    <option value="client">Client</option>
+                    <option value="contingency">Contingency</option>
+                    <option value="logistics">Logistics</option>
+                </select>
+                <input type="submit" class="app-content-headerButton" value="Add Inventory" name="submit">
+            </div>
+        </form>  
+    </div>
+    <div class="product-area-wrapper">
       <table>
           <thead>
               <tr>
@@ -133,6 +157,7 @@ $inventory = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   <th>Quantity</th>
                   <th>Price</th>
                   <th>Category</th>
+                  <th>Value</th>
               </tr>
           </thead>
           <tbody>
@@ -143,6 +168,7 @@ $inventory = $stmt->fetchAll(PDO::FETCH_ASSOC);
                       <td><?php echo $item['quantity']; ?></td>
                       <td><?php echo $item['price']; ?></td>
                       <td><?php echo $item['category']; ?></td>
+                      <td><?php echo $item['quantity'] * $item['price']; ?></td>
                   </tr>
               <?php } ?>
           </tbody>
